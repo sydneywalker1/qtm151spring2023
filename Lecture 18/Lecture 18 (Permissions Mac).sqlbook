@@ -35,6 +35,8 @@ in the finder window
 - Select the option 
 
 ``` Copy "us_congress_members.csv" as PATHNAME ```
+-- SQLBook: Code
+
 -- SQLBook: Markup
 # <span style="color:darkblue"> Alternative B </span>
 

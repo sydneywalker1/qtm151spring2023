@@ -15,6 +15,8 @@ called "SQL queries"
 
 Basic Syntax
 -- SQLBook: Code
+DROP TABLE IF EXISTS drivers;
+-- SQLBook: Code
 -- Commands separated by a semicolon ";"
 -- Commands in upper case, inputs lower case
 -- Include comments with two dashes "--"
@@ -88,6 +90,16 @@ The quiz will use the Formula 1 dataset
 with column names and data types
 - You will need to use the SQL command ``` CREATE TABLE ```
 
+-- SQLBook: Code
+DROP TABLE IF EXISTS bills_subjects;
+
+CREATE TABLE bills_subjects (
+    Congress int NOT NULL,
+    bill_number int,
+    bill_type varchar(30),
+    bill_subject varchar(1000)
+);
+
 -- SQLBook: Markup
 
 <font size = "5">
@@ -101,6 +113,12 @@ from ".csv" files using the command <br>
 - Display the dataset using ``` SELECT * FROM .... ```
 - See Lecture 18 for more details
 
+-- SQLBook: Code
+COPY bills_subjects
+FROM '/Users/SydneyWalker/sydneywalker_qtm 151/qtm151spring2023/Lecture 18/data/bills_subjects.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
+
+SELECT * FROM bills_subjects;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -108,6 +126,10 @@ from ".csv" files using the command <br>
 
 - Subset one of the above datasets using ``` WHERE ```
 - Then sort the datasets in ascending or descending order 
+-- SQLBook: Code
+SELECT * FROM bills_subjects
+WHERE (bill_subject = 'Abortion') OR (bill_subject = 'Youth employment and child labor')
+ORDER BY bill_number DESC;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -120,6 +142,26 @@ from ".csv" files using the command <br>
 
 
 HINT: See the end of lectures 17
+-- SQLBook: Code
+
+SELECT(COUNT(DISTINCT bill_type)) AS num_distict_bill_types,
+        COUNT(*) AS num_bills,
+        SUM(bill_number) AS sum_bill_number,
+        AVG (bill_number) AS mean_bill_number,
+        MIN(bill_number) AS min_bill_number,
+        MAX(bill_number) AS max_bill_number
+FROM bills_subjects
+GROUP BY bill_type;
+
+
+-- SQLBook: Code
+SELECT bill_type,
+        SUM(bill_number) AS sum_bill_number,
+        AVG (bill_number) AS mean_bill_number,
+        MIN(bill_number) AS min_bill_number,
+        MAX(bill_number) AS max_bill_number
+FROM bills_subjects
+GROUP BY bill_type;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -129,6 +171,13 @@ HINT: See the end of lectures 17
 - Then sort using ``` ORDER BY ```
 
 HINT: See the end of lectures 17 and 18
+-- SQLBook: Code
+SELECT bill_type,
+        COUNT(*) AS num_bill_types
+FROM bills_subjects
+GROUP BY bill_type
+ORDER BY num_bill_types asc;
+
 -- SQLBook: Markup
 <font size = "5">
 
@@ -136,3 +185,12 @@ HINT: See the end of lectures 17 and 18
 
 - Compute an aggregate statistict using ```GROUP BY```
 - Subset one of the above datasets using ``` HAVING ```
+-- SQLBook: Code
+SELECT bill_type,
+        SUM(bill_number) AS sum_bill_number,
+        AVG (bill_number) AS mean_bill_number,
+        MIN(bill_number) AS min_bill_number,
+        MAX(bill_number) AS max_bill_number
+FROM bills_subjects
+GROUP BY bill_type
+HAVING AVG(bill_number) > 50;

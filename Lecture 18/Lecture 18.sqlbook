@@ -35,7 +35,6 @@ United States Congress dataset
 
 Create table from codebook/dictionary
 -- SQLBook: Code
--- Active: 1680027197221@@127.0.0.1@5432@postgres
 -- We start by deleting the old table
 -- SQL does not allow you to create a table if one already exists
 DROP TABLE IF EXISTS us_congress_members;
@@ -93,7 +92,7 @@ CREATE TABLE bills_subjects(
     bill_number int,
     bill_type varchar(30),
     bill_subject varchar(30)
-)
+);
 
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Import CSV into SQL </span>
@@ -131,6 +130,10 @@ Try it yourself!
 additional ".sqlbooks" in this folder
 
 -- SQLBook: Code
+COPY us_congress_members
+FROM '/Users/SydneyWalker/sydneywalker_qtm 151/qtm151spring2023/Lecture 18/data/us_congress_members.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
+-- SQLBook: Code
 -- Write your own code
 --
 -- The argument associaated with COPY is the dataset in our server
@@ -161,7 +164,7 @@ SELECT * FROM us_congress_members
 ```
 -- SQLBook: Code
 -- Write your own code
-
+SELECT * FROM us_congress_members
 
 
 
@@ -185,7 +188,11 @@ SELECT * FROM bills_actions
 -- WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
 
+COPY bills_actions
+FROM '/Users/SydneyWalker/sydneywalker_qtm 151/qtm151spring2023/Lecture 18/data/bills_actions.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
 
+SELECT * FROM bills_actions
 
 -- SQLBook: Markup
 <font size = "5">
@@ -276,7 +283,10 @@ Try it yourself!
 -- SQLBook: Code
 -- Write your own code
 
-
+SELECT chamber,       
+       COUNT(*) AS num_members       
+FROM us_congress_members
+GROUP BY chamber;
 
 
 

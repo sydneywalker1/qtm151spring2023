@@ -100,6 +100,7 @@ Try it yourself!
 -- Make sure to deparate arguments by a semicolon!
 
 INSERT INTO drivers VALUES(5, 'Sydney Walker', 'American', 56);
+INSERT INTO drivers VALUES(6, 'Zoe Walker', 'American', 86);
 
 -- SQLBook: Markup
 # <span style="color:darkblue"> II. Dataset Operations </span>
