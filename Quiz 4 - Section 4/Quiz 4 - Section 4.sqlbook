@@ -1,0 +1,184 @@
+-- SQLBook: Markup
+# Quiz 4
+-- SQLBook: Markup
+## Submit this file. No need to convert to HTML
+-- SQLBook: Markup
+<font size = "5">
+Write your name as a comment (use double dash)
+-- SQLBook: Code
+--Sydney Walker
+-- SQLBook: Markup
+<font size = "5" >
+This quiz is open book 
+
+- You can use the lecture notes
+- You will get partial credit for attempting the questions
+- To get full credit, the code should run as intended
+- You should <span style="color:red"> NOT </span> communicate with other students
+
+Write the following message as a comment: <br>
+
+"I will abide by Emory's code of conduct"
+
+-- SQLBook: Code
+--I will abide by Emory's code of conduct.
+-- SQLBook: Markup
+
+<font size = "5">
+
+(a) Create an empty table for "constructor_standings"
+
+$\quad$ <img src="figures/constructor_standings_codebook.png" alt="drawing" width="400"/>
+
+<font size = "3">
+
+- Run the command ``` DROP TABLE IF EXISTS constructor_standings; ```
+- Use the command ```CREATE TABLE constructor_standings (... ) ``` to create an <br>
+empty table with the headers of the table, using the information in <br>
+the image and following the instructions in Lecture 18.
+
+HINT: Include any column names with upper case in doube quotations, <br> e.g.
+"raceId". If you don't you'll get an error
+-- SQLBook: Code
+-- Write your own code
+DROP TABLE IF EXISTS constructor_standings;
+
+CREATE TABLE constructor_standings(
+    "constructorStandingsId" int,
+    "raceId" int,
+    "constructorId" int,
+    points float,
+    position int,
+    "positionText" varchar(255),
+    wins int
+);
+
+
+-- SQLBook: Markup
+<font size = "5">
+
+(b) Use the the command ``` COPY ``` to import the rows <br>
+of "data_raw/constructor_standings.csv"
+
+<font size = "3">
+
+HINT: Remember that you have to find the pathname of the <br>
+".csv" file. See Lecture 18 for details. See the additional <br>
+lectures for how to handle the permissions. <br>
+
+(Optional note): If you are importing the data through the SQL terminal <br>
+(rather than through the notebook), please include the code <br>
+you are running and add a comment that you used the terminal
+-- SQLBook: Code
+-- Write your own code
+
+COPY constructor_standings
+FROM '/Users/SydneyWalker/sydneywalker_qtm 151/qtm151spring2023/Quiz 4 - Section 4/data_raw/constructor_standings.csv'
+WITH (DELIMITER ',', FORMAT csv, HEADER MATCH);
+
+
+
+-- SQLBook: Markup
+<font size = "5">
+
+(c) Subset and sort
+
+<font size = "3">
+
+- SELECT all the columns FROM the constructor_standings dataset
+- Then subset rows with 6 $\le$ position $\le$ 10 using <br>
+ ``` WHERE ```
+- Then sort the datasets in ascending order of <br>
+"wins"
+
+HINT: Remember to always refer to column names with at <br>
+least one capital letter with double quotations, e.g. "driverId" <br>
+HINT: See Lecture 17
+-- SQLBook: Code
+-- Write your own code
+SELECT * FROM constructor_standings
+WHERE ( position >= 6) AND (10 >= position)
+ORDER BY wins ASC;
+
+
+-- SQLBook: Markup
+<font size = "5">
+
+(d) Groupby + Aggregate
+
+
+<font size = "3">
+
+- Compute the average and the maxmum of "wins", <br>
+grouped by "raceId" using SELECT, FROM, and GROUP BY.
+
+
+HINT: See the end of lectures 17
+-- SQLBook: Code
+-- Write your own code
+
+SELECT "raceId",
+    AVG(wins) AS average_wins,
+    MAX(wins) AS max_wins
+FROM constructor_standings
+GROUP BY "raceId"
+
+
+-- SQLBook: Markup
+
+<font size = "5">
+
+(e) Groupby + Aggregate + Sort
+
+<font size = "3">
+
+- Select the "raceId" column and count the total <br>
+number of rows by "raceId" ```GROUP BY``` <br>
+ - Then sort by the count of the rows using ```ORDER BY``` <br>
+ in descending order
+
+HINT: Remember to include "driverId" in double <br>
+quotations it includes a mix of lower case and upper case letters
+-- SQLBook: Code
+-- Write your own code
+
+SELECT "raceId",
+    COUNT(*) AS "num_raceIds"
+FROM constructor_standings
+GROUP BY "raceId"
+ORDER BY "num_raceIds" desc;
+
+
+
+-- SQLBook: Markup
+
+<font size = "5">
+
+(f) Groupby + Aggregate + Subset
+
+<font size = "3">
+
+- Select the "raceId" and count the total <br>
+number of rows by "raceId" ```GROUP BY``` <br>
+ - Then subset raceId with 15 rows or more <br>
+ using ```HAVING ```
+-- SQLBook: Code
+-- Write your own code
+
+SELECT "raceId",
+    COUNT(*) AS "num_raceIds"
+FROM constructor_standings
+GROUP BY "raceId"
+HAVING COUNT(*) > 15
+
+
+
+-- SQLBook: Code
+
+-- BASIC SYNTAX OF SQL:
+
+-- Commands separated by a semicolon ";"
+-- Commands in upper case, inputs lower case
+-- Include comments with two dashes "--"
+-- Arguments in parenthesis, separated by a comma ","
+-- For strings, use single quotations '...', not double "...".
